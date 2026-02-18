@@ -1,0 +1,8 @@
+.env
+go.sum
+.idea/
+*.log
+*.exe
+*.dll
+*.so
+*.dylib
