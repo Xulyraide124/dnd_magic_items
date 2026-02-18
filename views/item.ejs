@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title><%= item.name %></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <a href="/" style="color: #ff4500; margin-bottom: 20px; display: block;">← Retour à la liste</a>
+
+    <div class="description-card">
+        <h2 style="font-family: 'MedievalSharp'; margin-top: 0;"><%= item.name %></h2>
+        <p><strong>Rareté :</strong> <%= item.rarity.name %></p>
+        
+        <hr>
+
+        <div class="content">
+            <% item.desc.forEach(paragraph => { %>
+                <p><%= paragraph %></p>
+            <% }); %>
+        </div>
+
+        <% if(item.variant) { %>
+            <p><em>Cet objet est une variante.</em></p>
+        <% } %>
+    </div>
+</body>
+</html>

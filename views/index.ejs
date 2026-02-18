@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>DnD Magic Items Index</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1>📜 Grimoire des Objets Magiques</h1>
+    
+    <ul>
+        <% items.forEach(item => { %>
+            <li>
+                <a href="/item/<%= item.index %>"><%= item.name %></a>
+                <button class="fav-btn" onclick="alert('Ajouté aux favoris (simulation)')">⭐</button>
+            </li>
+        <% }); %>
+    </ul>
+</body>
+</html>

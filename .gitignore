@@ -6,3 +6,7 @@ go.sum
 *.dll
 *.so
 *.dylib
+node_modules/
+dist/
+build/
+coverage/
