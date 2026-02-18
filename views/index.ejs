@@ -2,19 +2,40 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>DnD Magic Items Index</title>
+    <title>Grimoire - Liste</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1>📜 Grimoire des Objets Magiques</h1>
+    <a href="/" class="back-link">← Retour Accueil</a>
+    <h1>📜 Liste des Objets</h1>
     
-    <ul>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Chercher un objet..." onkeyup="filterItems()">
+    </div>
+
+    <ul id="itemList">
         <% items.forEach(item => { %>
-            <li>
+            <li class="item-card">
                 <a href="/item/<%= item.index %>"><%= item.name %></a>
-                <button class="fav-btn" onclick="alert('Ajouté aux favoris (simulation)')">⭐</button>
+                <button class="fav-btn" onclick="addFav('<%= item.index %>')">⭐</button>
             </li>
         <% }); %>
     </ul>
+
+    <script>
+        function filterItems() {
+            let input = document.getElementById('searchInput').value.toLowerCase();
+            let cards = document.querySelectorAll('.item-card');
+            cards.forEach(card => {
+                let name = card.querySelector('a').innerText.toLowerCase();
+                card.style.display = name.includes(input) ? "flex" : "none";
+            });
+        }
+
+        async function addFav(index) {
+            const res = await fetch(`/api/favorites/${index}`, { method: 'POST' });
+            if(res.ok) alert("Ajouté aux favoris !");
+        }
+    </script>
 </body>
 </html>
