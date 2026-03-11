@@ -34,6 +34,25 @@ app.get('/item/:index', async (req, res) => {
         res.status(404).send("Objet non trouvé");
     }
 });
+// Page des favoris
+app.get('/favorites', async (req, res) => {
+    try {
+        const favoriteIndexes = await db.getFavorites();
+        
+        // On récupère les détails de chaque item favori en parallèle
+        const favoriteDetails = await Promise.all(
+            favoriteIndexes.map(async (index) => {
+                const response = await axios.get(`${API_URL}magic-items/${index}`);
+                return response.data;
+            })
+        );
+
+        res.render('favorites', { items: favoriteDetails });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erreur lors de la récupération des favoris");
+    }
+});
 
 // API Favoris (Simulation)
 app.post('/api/favorites/:index', async (req, res) => {
