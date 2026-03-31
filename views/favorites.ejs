@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mes Favoris</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="topbar">
+        <a href="/items" class="back-link">← Retour au Grimoire</a>
+        <span>👤 <%= user.username %></span>
+        <a href="/logout" class="logout-btn">Déconnexion</a>
+    </div>
+
+    <h1>⭐ Mes Reliques Favorites</h1>
+
+    <% if (items.length === 0) { %>
+        <p class="empty-msg">Aucun favori pour l'instant. Explore le grimoire !</p>
+    <% } else { %>
+        <ul id="itemList">
+            <% items.forEach(item => { %>
+                <li class="item-card" id="fav-<%= item.index %>">
+                    <a href="/item/<%= item.index %>"><%= item.name %></a>
+                    <button class="remove-btn" onclick="removeFav('<%= item.index %>')">🗑️</button>
+                </li>
+            <% }); %>
+        </ul>
+    <% } %>
+
+    <script>
+        async function removeFav(index) {
+            const res = await fetch(`/api/favorites/${index}`, { method: 'DELETE' });
+            if (res.ok) {
+                document.getElementById(`fav-${index}`).remove();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscription - Archive des Reliques</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="auth-body">
+    <div class="auth-card">
+        <h2>⚔️ Créer un compte</h2>
+        <% if (error) { %>
+            <p class="error-msg"><%= error %></p>
+        <% } %>
+        <form method="POST" action="/register">
+            <input type="text" name="username" placeholder="Nom d'aventurier" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <button type="submit">Rejoindre l'Archive</button>
+        </form>
+        <p>Déjà un compte ? <a href="/login">Se connecter</a></p>
+    </div>
+</body>
+</html>

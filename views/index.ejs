@@ -6,9 +6,17 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <a href="/" class="back-link">← Retour Accueil</a>
-    <h1>📜 Liste des Objets</h1>
-    
+    <div class="topbar">
+        <a href="/" class="back-link">← Accueil</a>
+        <div class="topbar-right">
+            <span class="user-badge">👤 <%= user.username %></span>
+            <a href="/favorites" class="fav-link">⭐ Mes Favoris</a>
+            <a href="/logout" class="logout-btn">Déconnexion</a>
+        </div>
+    </div>
+
+    <div class="page-header"><h1>📜 Grimoire des Objets Magiques</h1></div>
+
     <div class="search-container">
         <input type="text" id="searchInput" placeholder="Chercher un objet..." onkeyup="filterItems()">
     </div>
@@ -16,25 +24,29 @@
     <ul id="itemList">
         <% items.forEach(item => { %>
             <li class="item-card">
-                <a href="/item/<%= item.index %>"><%= item.name %></a>
-                <button class="fav-btn" onclick="addFav('<%= item.index %>')">⭐</button>
+                <a href="/item/<%= item.index %>" class="item-card-link">
+                    <span class="item-name"><%= item.name %></span>
+                </a>
+                <button class="fav-btn" onclick="addFav('<%= item.index %>', this)">⭐</button>
             </li>
         <% }); %>
     </ul>
 
     <script>
         function filterItems() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.querySelectorAll('.item-card');
-            cards.forEach(card => {
-                let name = card.querySelector('a').innerText.toLowerCase();
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.item-card').forEach(card => {
+                const name = card.querySelector('.item-name').innerText.toLowerCase();
                 card.style.display = name.includes(input) ? "flex" : "none";
             });
         }
 
-        async function addFav(index) {
+        async function addFav(index, btn) {
             const res = await fetch(`/api/favorites/${index}`, { method: 'POST' });
-            if(res.ok) alert("Ajouté aux favoris !");
+            if (res.ok) {
+                btn.textContent = '✅';
+                btn.disabled = true;
+            }
         }
     </script>
 </body>

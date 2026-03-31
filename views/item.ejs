@@ -6,14 +6,73 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <a href="/items" class="back-link">← Retour au Grimoire</a>
-    <div class="description-card">
-        <h2><%= item.name %></h2>
-        <p><strong>Type:</strong> <%= item.equipment_category.name %> | <strong>Rareté:</strong> <%= item.rarity.name %></p>
-        <hr>
-        <% item.desc.forEach(p => { %>
-            <p><%= p %></p>
-        <% }); %>
+    <div class="topbar">
+        <a href="/items" class="back-link">← Retour au Grimoire</a>
+        <span>👤 <%= user.username %></span>
+        <a href="/logout" class="logout-btn">Déconnexion</a>
     </div>
+
+    <div class="item-detail">
+
+        <div class="item-header">
+            <% if (item.image) { %>
+                <img 
+                    src="https://www.dnd5eapi.co<%= item.image %>" 
+                    alt="<%= item.name %>"
+                    class="item-image"
+                >
+            <% } else { %>
+                <div class="item-image-placeholder">⚔️</div>
+            <% } %>
+
+            <div class="item-meta">
+                <h1><%= item.name %></h1>
+                <div class="item-tags">
+                    <span class="tag tag-type"><%= item.equipment_category.name %></span>
+                    <span class="tag tag-rarity rarity-<%= item.rarity.name.toLowerCase().replace(' ', '-') %>">
+                        <%= item.rarity.name %>
+                    </span>
+                    <% if (item.variant) { %>
+                        <span class="tag tag-variant">Variante</span>
+                    <% } %>
+                </div>
+
+                <button class="fav-btn" id="favBtn" onclick="toggleFav('<%= item.index %>')">
+                    ⭐ Ajouter aux favoris
+                </button>
+            </div>
+        </div>
+
+        <div class="item-desc">
+            <h2>📖 Description</h2>
+            <% item.desc.forEach(p => { %>
+                <p><%= p %></p>
+            <% }); %>
+        </div>
+
+        <% if (item.variants && item.variants.length > 0) { %>
+            <div class="item-variants">
+                <h2>🔀 Variantes</h2>
+                <ul>
+                    <% item.variants.forEach(v => { %>
+                        <li><a href="/item/<%= v.index %>"><%= v.name %></a></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } %>
+
+    </div>
+
+    <script>
+        async function toggleFav(index) {
+            const btn = document.getElementById('favBtn');
+            const res = await fetch(`/api/favorites/${index}`, { method: 'POST' });
+            if (res.ok) {
+                btn.textContent = '⭐ Ajouté !';
+                btn.disabled = true;
+                btn.classList.add('fav-added');
+            }
+        }
+    </script>
 </body>
 </html>

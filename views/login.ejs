@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Connexion - Archive des Reliques</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="auth-body">
+    <div class="auth-card">
+        <h2>🔐 Connexion</h2>
+        <% if (error) { %>
+            <p class="error-msg"><%= error %></p>
+        <% } %>
+        <form method="POST" action="/login">
+            <input type="text" name="username" placeholder="Nom d'aventurier" required>
+            <input type="password" name="password" placeholder="Mot de passe" required>
+            <button type="submit">Entrer</button>
+        </form>
+        <p>Pas encore de compte ? <a href="/register">S'inscrire</a></p>
+    </div>
+</body>
+</html>
