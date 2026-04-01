@@ -31,7 +31,6 @@ const init = async () => {
 init().catch(console.error);
 
 module.exports = {
-    // USERS
     createUser: async (username, passwordHash) => {
         const result = await pool.query(
             `INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING id, username`,
@@ -56,7 +55,6 @@ module.exports = {
         return result.rows[0] || null;
     },
 
-    // FAVORITES
     addFavorite: async (userId, itemIndex) => {
         try {
             await pool.query(
