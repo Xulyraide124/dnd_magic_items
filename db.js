@@ -57,7 +57,7 @@ module.exports = {
     },
 
     // FAVORITES
-    addFavorite: async (userId, itemIndex) => 
+    addFavorite: async (userId, itemIndex) => {
         try {
             await pool.query(
                 `INSERT INTO favorites (user_id, item_index) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
